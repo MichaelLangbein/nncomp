@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "/home/michael/miniconda3/envs/tensorflow/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+}
