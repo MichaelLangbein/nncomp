@@ -9,3 +9,4 @@ Each net-structure is trained against each learning dataset. We expect
  - nets that are close in structure to each other to be close in accuracy
  - multilayer nets to require less neurons for the same accuracy
  - multilayer nets to be more accurate than single-layer nets with the same total ammount of neurons
+ - verify error bunds from "why and when are deep nets better than shallow ones?"

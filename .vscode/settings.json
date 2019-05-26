@@ -1,5 +1,11 @@
 {
     "python.pythonPath": "/home/michael/miniconda3/envs/tensorflow/bin/python",
     "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true, 
+    "python.autoComplete.extraPaths": [
+        "/home/michael/miniconda3/envs/tensorflow", 
+        "/home/michael/miniconda3/envs/tensorflow/lib", 
+        "/home/michael/miniconda3/envs/tensorflow/lib/python3.7", 
+        "/home/michael/miniconda3/envs/tensorflow/lib/python3.7/site-packages"
+    ]
 }

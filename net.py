@@ -5,12 +5,13 @@ import numpy as np
 
 class Net():
 
-    def __init__(self, sizes):
+    def __init__(self, inputSize, layerSizes):
         layers = []
-        for i in range(len(sizes)):
+        for i, size in enumerate(layerSizes):
             if i == 0: 
-                continue
-            layer = k.layers.Dense(sizes[i], input_shape=(sizes[i-1],), activation=k.activations.sigmoid)
+                layer = k.layers.Dense(size, input_shape=(inputSize,), activation=k.activations.sigmoid)
+            else:
+                layer = k.layers.Dense(size, activation=k.activations.sigmoid)
             layers.append(layer)
         model = k.Sequential(layers=layers)
         model.compile(
@@ -38,8 +39,9 @@ class Net():
 
 class SimpleNet():
 
-    def __init__(self, sizes):
+    def __init__(self, inputSize, layerSizes):
         weights = []
+        sizes = [inputSize] + layerSizes
         for i in range(len(sizes)):
             if i == 0: continue
             weight = np.random.random_sample((sizes[i], sizes[i-1]))
@@ -60,7 +62,6 @@ class SimpleNet():
         return 1.0 / (1.0 + np.exp(-inpt))
             
 
-
 def randomDataGenerator(inputSize, batchSize):
     while True: 
         inpt = np.random.random_sample((batchSize, inputSize))
@@ -68,18 +69,31 @@ def randomDataGenerator(inputSize, batchSize):
         yield (inpt, outpt)
 
 
-def netDataGenerator(layerSizes, batchSize):
-    net = SimpleNet(layerSizes)
+def netDataGenerator(inputSize, layerSizes, batchSize):
+    net = SimpleNet(inputSize, layerSizes)
     while True:
-        inpt = np.random.random_sample((batchSize, layerSizes[0]))
+        inpt = np.random.random_sample((batchSize, inputSize))
         outpt = net.predict(inpt)
-        #outptFlat = np.array([o[0] for o in outpt])
         yield (inpt, outpt)
 
 
+def padData(inputBatch, newSampleSize):
+    (nSamples, sampleSize) = inputBatch.shape
+    if newSampleSize < sampleSize:
+        raise Exception("New sample-size smaller than old one. Cannot pad.")
+    newData = np.zeros((nSamples, newSampleSize))
+    newData[0:nSamples, 0:sampleSize] = inputBatch
+    return newData
+
+
+def paddedGenerator(generator, newRowSize):
+    for (inpt, outpt) in generator: 
+        pinpt = padData(inpt, newRowSize)
+        yield (pinpt, outpt)
+
+
 if __name__ == "__main__":
-    net = Net([2, 3, 1])
-    generator = netDataGenerator([2, 3, 1], 10) # randomDataGenerator(2, 10) # 
+    net = Net(2, [3, 1])
+    generator = netDataGenerator(2, [3, 1], 10) # randomDataGenerator(2, 10) # 
     history = net.train(generator, generator)
     print(history)
-
