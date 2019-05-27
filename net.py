@@ -20,15 +20,15 @@ class Net():
         )
         self.model = model
 
-    def train(self, trainingGenerator, validationGenerator, callbacks=[]):
+    def train(self, trainingGenerator, validationGenerator, callbacks=[], steps_per_epoch=15, epochs=5):
         history = self.model.fit_generator(
             generator=trainingGenerator,
-            steps_per_epoch=15,       # number of batches to be drawn from generator
-            epochs=5,                 # number of times the data is repeated
+            steps_per_epoch=steps_per_epoch,    # number of batches to be drawn from generator
+            epochs=epochs,                      # number of times the data is repeated
             validation_data=validationGenerator,
-            validation_steps=5,       # number of batches to be drawn from generator
-            callbacks=callbacks,      # [modelSaver, tensorBoard, customPlotCallback, ...]
-            #use_multiprocessing=True  # Otherwise uses threads
+            validation_steps=5,                 # number of batches to be drawn from generator
+            callbacks=callbacks,                # [modelSaver, tensorBoard, customPlotCallback, ...]
+            use_multiprocessing=True           # Otherwise uses threads
         )
         return history
 

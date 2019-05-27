@@ -21,7 +21,7 @@ for dataShape in allNetworkShapes:
     for networkShape in allNetworkShapes: 
         print("\n\n -------------Training net with shape {} on data of shape {} ----------- \n\n".format(networkShape, dataShape))
         net = Net(inputSize, networkShape)
-        history = net.train(generator, generator)
+        history = net.train(generator, generator, [], steps_per_epoch=50, epochs=10)
         collectedData[str(dataShape)][str(networkShape)] = history.history
 
 # Storing results
